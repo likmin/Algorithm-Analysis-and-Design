@@ -34,5 +34,5 @@ int main()
 	char c[5] = "aacc";
 	Perm(c, 0, 3);
 	return 0;
-}
+}   
 
