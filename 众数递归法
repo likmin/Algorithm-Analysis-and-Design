@@ -1,0 +1,30 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int a[10] = {1,3,2,3,2,3,2,5,3,1},largest=-1,element=-1;//largest用于统计众数的个数
+														//element用于记录众数
+void mode(int l, int r) {
+	int ll, rl;
+	int med = a[(l + r) / 2];//先找到中位数
+
+	for (rl = (l + r) / 2; a[rl] == med; rl++);//找到中位数的右边界，但是这个会加加1个
+	for (ll = (l + r) / 2; a[ll] == med; ll--);//找到中位数的左边界，但是这个会减减1个
+	
+	rl--; ll++;//消去多计算的
+	
+	if (largest < rl - ll + 1) {//如果largest小于当前统计数的个数
+		largest = rl - ll + 1;
+		element = med;
+	}
+
+	if (ll - l > largest)mode(l, ll - 1);//如果众数左边的个数大于众数的个数，那么左边有可能有可能还有数目更多的众数
+	if (r - rl > largest)mode(rl + 1, r);//如果众数右边的个数大于众数的个数，那么右边有可能有可能还有数目更多的众数
+}
+int main()
+{
+	sort(a, a + 10);
+	mode(0, 9);
+	cout << element<<endl<<largest;
+	return 0;
+}
+
