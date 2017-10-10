@@ -37,7 +37,7 @@ void MergeSort(int left, int right) {
 int main()
 {
 	MergeSort(0, 10);
-	for (int i = 0; i < 11; i++) {
+	for (int i = 0; i < 11; i++) {//都越界了！！！！
 		printf("%d ", a[i]);
 	}
 	return 0;
