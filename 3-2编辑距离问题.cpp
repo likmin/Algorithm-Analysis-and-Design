@@ -1,7 +1,3 @@
-// 3-2±à¼­¾àÀëÎÊÌâ.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
-//
-
-#include "stdafx.h"
 #include<iostream>
 #include<vector>
 #include<string>
@@ -19,14 +15,14 @@ int main()
 
 	string a = "fxpimu";
 	string b = "xwrs";
-	for (int i = 0; i <=b.size(); i++) {
-		for (int j = 0; j <=a.size(); j++) {
+	for (int i = 0; i <b.size(); i++) {
+		for (int j = 0; j <a.size(); j++) {
 			if (i == 0 && j == 0)dist[i][j] = 0;
 			else if (i == 0 && j > 0)dist[i][j] = j;
 			else if (i > 0 && j == 0)dist[i][j] = i;
 			else {
 				int k = b[i] == a[j] ? 0 : 1;
-				dist[i][j] = min(dist[i - 1][j], dist[i][j - 1] + 1, dist[i - 1][ j - 1] + k);
+				dist[i][j] = min(dist[i - 1][j]+1, dist[i][j - 1] + 1, dist[i - 1][ j - 1] + k);
 			}
 		}
 	}
@@ -37,7 +33,6 @@ int main()
 		}
 		printf("\n");
 	}
-	printf("±à¼­¾àÀëÎª%d",dist[b.size()][a.size()]);
+	printf("ç¼–è¾‘è·ç¦»ä¸º%d",dist[b.size()][a.size()]);
      return 0;
 }
-
