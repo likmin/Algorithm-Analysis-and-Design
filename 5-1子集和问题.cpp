@@ -1,40 +1,46 @@
-// 5-1×Ó¼¯ºÍÎÊÌâ.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+// 5-1å­é›†å’Œé—®é¢˜.cpp : å®šä¹‰æ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 //
 
 #include "stdafx.h"
-#include<iostream>
-#include<vector>
+#include <iostream>  
+#include <vector>  
+#include<algorithm>
 using namespace std;
-int n,c,sum=0;
-vector<int> v,fin,visit;
-int backtrack(int i){
-	if(i>n){
-		if(sum==c)return true;
-		else return false;
-	}
-	if(sum+v[i]<=c){
-		sum+=v[i];
-		if(backtrack(i+1)){
-			fin.push_back(v[i]);
-			return true;
-		}
-		sum-=v[i];		
-	}
+int n, c;
+vector<int> v, X;
 
+
+void subsetSum(vector<int>& W, vector<int>& X, int sum, int k) {
+	X[k] = 1; // try one branch of tree  
+	if (sum + W[k] == c) {//å¦‚æœå½“å‰åŠ ä¸Šå½“å‰èŠ‚ç‚¹ç­‰äºæœ€ç»ˆçš„å€¼
+		for (int i = 0; i < X.size(); ++i) {
+			if (X[i])
+				cout << v[i] << " ";
+		}
+		cout << endl;
+	}
+	else if (k + 1 < W.size() && sum + W[k] <= c)
+		subsetSum(W, X, sum + W[k], k + 1);
+
+	X[k] = 0;
+	if (k + 1 < W.size() && sum + W[k+1] <= c)
+		subsetSum(W, X, sum, k + 1);
 
 }
-int main(){
 
-
-	cin>>n>>c;
-	v.resize(n);
-	visit.resize(n);
-	for(int i=0;i<n;i++)cin>>v[i];
-	for(int i=0;i<n;i++){
-		fill(visit.begin(),visit.end(),0);
-		backtrack(i);
-		if(sum==c)break;
+int main() {
+	//cin >> n >> c;
+	/*for (int i = 0; i < n; i++) {
+	int temp;
+	cin >> temp;
+	v.push_back(temp);
+	}*/
+	n = 5; c = 14;
+	v = { 2,2,6,5,4 };
+	for (int i = 0; i < v.size(); i++) {
+		X.resize(v.size());
+		swap(v[0], v[i]);
+		subsetSum(v, X, 0, 0);
 	}
-	for(int i=0;i<fin.size();i++)
-		cout<<fin[i]<<" ";
+	return 0;
 }
