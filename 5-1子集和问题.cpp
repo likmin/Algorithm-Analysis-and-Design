@@ -1,46 +1,59 @@
-// 5-1子集和问题.cpp : 定义控制台应用程序的入口点。
+﻿// 5-1子集和问题.cpp : 定义控制台应用程序的入口点。
 //
-
-#include "stdafx.h"
-#include <iostream>  
-#include <vector>  
-#include<algorithm>
+#include"stdafx.h"
+#include<iostream>
+#include<vector>
 using namespace std;
-int n, c;
-vector<int> v, X;
-
-
-void subsetSum(vector<int>& W, vector<int>& X, int sum, int k) {
-	X[k] = 1; // try one branch of tree  
-	if (sum + W[k] == c) {//如果当前加上当前节点等于最终的值
-		for (int i = 0; i < X.size(); ++i) {
-			if (X[i])
-				cout << v[i] << " ";
-		}
-		cout << endl;
+struct node {
+	int data;
+	struct node *right, *left;
+};
+vector<int> s1, S;
+int n, c, depth = -1,flag=0;
+void print() {
+	flag = 1;
+	vector<int>::iterator it2 = s1.begin();
+	while (it2 != s1.end()) {
+		cout << *it2 << " ";
+		it2++;
 	}
-	else if (k + 1 < W.size() && sum + W[k] <= c)
-		subsetSum(W, X, sum + W[k], k + 1);
+	cout << endl;
+}
+/*
+0-1背包问题，
+深度优先遍历二叉树，depth为二叉树的深度，
+如果要遍历左子树，就把当前层的值S[depth]放进栈s1中，
+并赋值当前节点为上一节点加上当前层的值，即root->left->data=root->data+S[depth]
+如果是要遍历右子树，不把当前层的值放进去，
+把上一节点的值赋值给当前节点即可，即root->right->data=root->data;
+*/
+void DFS(node *root) {
+	if (root->data == c) { print(); return; }
+	else if (root->data > c)return;
+	if (depth < n - 1) {
+		depth++;
+		root->left = new node;
+		root->left->data = root->data + S[depth];
+		s1.push_back(S[depth]);
+		DFS(root->left);
+		s1.pop_back();
 
-	X[k] = 0;
-	if (k + 1 < W.size() && sum + W[k+1] <= c)
-		subsetSum(W, X, sum, k + 1);
+		root->right = new node;
+		root->right->data = root->data;
+		DFS(root->right);
+		depth--;
+	}
 
 }
-
-int main() {
-	//cin >> n >> c;
-	/*for (int i = 0; i < n; i++) {
-	int temp;
-	cin >> temp;
-	v.push_back(temp);
-	}*/
-	n = 5; c = 14;
-	v = { 2,2,6,5,4 };
-	for (int i = 0; i < v.size(); i++) {
-		X.resize(v.size());
-		swap(v[0], v[i]);
-		subsetSum(v, X, 0, 0);
-	}
+int main()
+{
+	cin >> n >> c;
+	S.resize(n + 1);
+	for (int i = 0; i < n; i++) cin >> S[i];
+	node *root = new node;
+	root->data = 0;
+	root->left = root->right = NULL;
+	DFS(root);
+	if (flag==0)cout << "No Solution!" << endl;
 	return 0;
 }
