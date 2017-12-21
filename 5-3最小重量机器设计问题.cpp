@@ -14,9 +14,9 @@ void dfs(int depth,int u) {
 	v.push_back(u);
 	a =a+ w[depth][u];
 	if (depth == n) { 
-		/*for (int i = 0; i < v.size(); i++)
+		for (int i = 0; i < v.size(); i++)
 			cout << v[i] << " ";
-		cout << "a = "<<a<<endl;*/
+		cout << "a = "<<a<<endl;
 		if (minnum > a) { minnum = a; v1 = v; }
 		v.pop_back();
 		a -= w[depth][u];
@@ -31,7 +31,6 @@ void dfs(int depth,int u) {
 int main()
 {
 	cin >> n >> m >> d;
-	
 	for (int i = 1; i <=n; i++) 
 		for (int j = 1; j <= m; j++) 
 			cin >> c[i][j];
@@ -42,6 +41,36 @@ int main()
 
 	fill(flag[0], flag[0] + 100 * 100, false);
 	cout << endl;
+	/*
+	图的深度优先搜索
+	1 1 1 a = 6
+	1 1 2 a = 6
+	1 1 3 a = 6
+	1 2 1 a = 5
+	1 2 2 a = 5
+	1 2 3 a = 5
+	1 3 1 a = 4
+	1 3 2 a = 4
+	1 3 3 a = 4
+	2 1 1 a = 7
+	2 1 2 a = 7
+	2 1 3 a = 7
+	2 2 1 a = 6
+	2 2 2 a = 6
+	2 2 3 a = 6
+	2 3 1 a = 5
+	2 3 2 a = 5
+	2 3 3 a = 5
+	3 1 1 a = 8
+	3 1 2 a = 8
+	3 1 3 a = 8
+	3 2 1 a = 7
+	3 2 2 a = 7
+	3 2 3 a = 7
+	3 3 1 a = 6
+	3 3 2 a = 6
+	3 3 3 a = 6
+	*/
 	for (int i = 1; i <= m; i++) {
 		v.clear();
 		dfs(1, i);
