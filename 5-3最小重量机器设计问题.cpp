@@ -5,55 +5,49 @@
 #include<iostream>
 #include<vector>
 using namespace std;
-struct node {
-	int data;
-	struct node *right, *left;
-};
-vector<int> s1,S;
-int n, c,depth=-1;
-void print() {
-	vector<int>::iterator it2 = s1.begin();
-	while (it2 != s1.end()) {
-		cout << *it2 << " ";
-		it2++;
+int n, m, d, w[100][100], c[100][100];
+bool flag[100][100];
+int a = 0;
+int minnum = 99999999;
+vector<int> v,v1;
+void dfs(int depth,int u) {
+	v.push_back(u);
+	a =a+ w[depth][u];
+	if (depth == n) { 
+		/*for (int i = 0; i < v.size(); i++)
+			cout << v[i] << " ";
+		cout << "a = "<<a<<endl;*/
+		if (minnum > a) { minnum = a; v1 = v; }
+		v.pop_back();
+		a -= w[depth][u];
+		return;
 	}
-	cout << endl;
-}
-/*
-0-1背包问题，
-深度优先遍历二叉树，depth为二叉树的深度，
-如果要遍历左子树，就把当前层的值S[depth]放进栈s1中，
-并赋值当前节点为上一节点加上当前层的值，即root->left->data=root->data+S[depth]
-如果是要遍历右子树，不把当前层的值放进去，
-把上一节点的值赋值给当前节点即可，即root->right->data=root->data;
-*/
-void DFS(node *root) {
-	if (root->data == c)print();
-	else if (root->data > c)return;
-	if (depth < n-1) {
-		depth++;
-		root->left = new node;
-		root->left->data = root->data + S[depth];
-		s1.push_back(S[depth]);
-		DFS(root->left);
-		s1.pop_back();
-
-		root->right = new node;
-		root->right->data = root->data;
-		DFS(root->right);
-		depth--;
+	for (int i = 1; i <= m; i++) {
+			dfs(depth + 1, i);
 	}
-
+	v.pop_back();
+	a -= w[depth][u];
 }
 int main()
 {
-	cin >> n >> c;
-	S.resize(n+1);
-	for (int i = 0; i < n; i++) cin >> S[i];
-	node *root = new node;
-	root->data = 0;
-	root->left = root->right = NULL;
-	DFS(root);
-    return 0;
+	cin >> n >> m >> d;
+	
+	for (int i = 1; i <=n; i++) 
+		for (int j = 1; j <= m; j++) 
+			cin >> c[i][j];
+		
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= m; j++)
+			cin >> w[i][j];
+
+	fill(flag[0], flag[0] + 100 * 100, false);
+	cout << endl;
+	for (int i = 1; i <= m; i++) {
+		v.clear();
+		dfs(1, i);
+	}
+	for (int i = 0; i < v1.size(); i++)
+		cout << v1[i]<<" ";
+	cout << minnum;
 }
 
