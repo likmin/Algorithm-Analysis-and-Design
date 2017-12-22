@@ -23,6 +23,8 @@ void DFS(int t) {
 		maxValue = t;
 	}
 
+
+
 	for (int i = 0; i < n; i++) {
 		F[i][F[i][0] + 1] = t;
 		if (judge(i,t)) {//判断t是否可以放在F[i]数组中，如果可以放进去， 继续深度优先搜索
